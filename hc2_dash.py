@@ -10,16 +10,16 @@ from time import gmtime, strftime
 def button_pressed_dash1():
   current_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
   print 'SOMAT button pressed at ' + current_time
-  request = urllib2.Request('http://hc2_IP:80/api/sceneControl?id=SCENE&action=start')
-  base64string = base64.encodestring('%s:%s' % ("user", "password")).replace('\n', '')
+  request = urllib2.Request('http://{HC2_IP}:80/api/sceneControl?id={SCENE_ID}&action=start')
+  base64string = base64.encodestring('%s:%s' % ("{USER}", "{PASSWORD}")).replace('\n', '')
   request.add_header("Authorization", "Basic %s" % base64string)
   result = urllib2.urlopen(request)
 
 def button_pressed_dash2():
   current_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
   print 'NERF button pressed at ' + current_time
-  request = urllib2.Request("http://hc2_IP:80/api/sceneControl?id=202&action=start")
-  base64string = base64.encodestring('%s:%s' % ("user", "password")).replace('\n', '')
+  request = urllib2.Request("http://{HC2_IP}::80/api/sceneControl?id={SCENE_ID}&action=start")
+  base64string = base64.encodestring('%s:%s' % ("{USER}", "{PASSWORD}")).replace('\n', '')
   request.add_header("Authorization", "Basic %s" % base64string)
   result = urllib2.urlopen(request)
 
@@ -32,8 +32,8 @@ def udp_filter(pkt):
        mac_to_action[pkt.src]()
        break
 
-mac_to_action = {'XX:AA:BB:CC:DD:XX' : button_pressed_dash1,
-                 'XX:DD:CC:BB:AA:XX' : button_pressed_dash2}
+mac_to_action = {'{TH:IS:TH:EM:AC:XX}' : button_pressed_dash1,
+                 '{TH:IS:TH:EM:AC:XX} : button_pressed_dash2}
 mac_id_list = list(mac_to_action.keys())
 
 print "Waiting for a button press..."
